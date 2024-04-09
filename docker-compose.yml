@@ -1,0 +1,47 @@
+version: '3.7'
+
+services:
+  php-fpm:
+    image: '${DOCKER_REGISTRY}/${DOCKER_PHP_FPM_IMAGE_NAME}:${DOCKER_IMAGE_VERSION}'
+    container_name: calc-php-fpm
+    environment:
+      ENV: ${ENV}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    volumes:
+      - ./:/var/www/html
+
+  nginx:
+    image: '${DOCKER_REGISTRY}/${DOCKER_NGINX_IMAGE_NAME}:${DOCKER_IMAGE_VERSION}'
+    container_name: calc-nginx
+    ports:
+      - ${APP_WEB_PORT}:80
+    volumes:
+      - ./:/var/www/html
+
+  php-cli:
+    image: '${DOCKER_REGISTRY}/${DOCKER_CLI_IMAGE_NAME}:${DOCKER_IMAGE_VERSION}'
+    container_name: calc-php-cli
+    environment:
+      ENV: ${ENV}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    volumes:
+      - ./:/app
+
+  mariadb:
+    image: mariadb:10.7.4
+    container_name: calc-mariadb
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    ports:
+      - ${MYSQL_PORT}:3306
+    volumes:
+      - mysql:/var/lib/mysql
+
+volumes:
+  mysql:

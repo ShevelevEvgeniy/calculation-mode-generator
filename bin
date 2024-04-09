@@ -1,0 +1,50 @@
+#!/usr/bin/env php
+<?php
+
+use Craft\Components\DIContainer\DIContainer;
+use Craft\Components\ErrorHandler\CliErrorHandler;
+use Craft\Contracts\ConsoleKernelInterface;
+use Craft\Contracts\DataBaseConnectionInterface;
+use Craft\Contracts\EventDispatcherInterface;
+use Craft\Contracts\InputInterface;
+use Craft\Contracts\OutputInterface;
+
+use app\Console\CalculatorCommand;
+use app\Console\ListCommand;
+
+ini_set('error_reporting', E_ALL);
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+
+const PROJECT_ROOT = __DIR__ . '/';
+
+require_once PROJECT_ROOT . '/vendor/autoload.php';
+
+$errorHandler = new CliErrorHandler(
+    CliErrorHandler::LOG_LEVEL_ERROR,
+    PROJECT_ROOT . 'runtime/ConsoleErrors/error.log'
+);
+
+set_error_handler([$errorHandler, 'handle']);
+set_exception_handler([$errorHandler, 'handleException']);
+
+$container = DIContainer::createContainer(require_once PROJECT_ROOT . 'modules/calculation_modes_generator/config/di-container.php');
+
+$container->singleton(EventDispatcherInterface::class);
+$container->singleton(DataBaseConnectionInterface::class);
+$container->singleton(InputInterface::class);
+$container->singleton(OutputInterface::class);
+$container->singleton(ConsoleKernelInterface::class);
+
+$kernel = $container->make(ConsoleKernelInterface::class);
+
+$kernel->registerCommandNamespaces([
+    CalculatorCommand::class,
+    ListCommand::class
+]);
+
+$kernel->registeredOptions();
+
+$status = $kernel->handle();
+
+$kernel->terminate($status);
