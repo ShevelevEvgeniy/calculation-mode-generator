@@ -2,14 +2,6 @@
 
 Индекс пакета: `CLCMDGNRT`
 
-## Описание
-
-Проект предназначен для апгрейда наших hard skills в соответствии с корпоративными требованиями.
-
-## Ссылки на документацию
-
-- [Правила разработки](https://gitlab.efko.ru/web/dpd/manifest/-/blob/master/src/code-style/php.md)
-
 ## Окружение
 
 - Docker 20.x.x
@@ -39,7 +31,7 @@
 
 **PROJECT**
 - Создать новую директорию для проекта. В консоли перейти в созданную директорию и написать:
-   `git clone https://gitlab-dev.efko.ru/workshop/progers/backend/1-3-0/calculation-mode-generator.git`
+   `git clone https://github.com/ShevelevEvgeniy/calculation-mode-generator.git`
 
 **DOCKER**
 
@@ -53,16 +45,6 @@
 - `make migration` - Запуск миграций
 - `make shell` - Подключение в контейнер с php
 - `make test` - Запуск тестов
-
-## Веб-приложение 
-
-- [Генератор режимов расчета](https://gitlab-dev.efko.ru/workshop/progers/backend/1-3-0/calculation-mode-generator/)
-
-  - Ветка: `master`
-  - Предназначение: основная
-
-  - Ветка: `develop`
-  - Предназначение: тестирование нового функционала, знакомство с ситемой
 
 ## Дополнительно
 

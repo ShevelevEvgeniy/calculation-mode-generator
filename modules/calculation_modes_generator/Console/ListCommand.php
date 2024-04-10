@@ -42,10 +42,7 @@ class ListCommand implements CommandInterface
     public function execute(InputInterface $input, OutputInterface $output): void
     {
         $output->primary("\nКомпонентный фреймворк"  . PHP_EOL  . PHP_EOL);
-        $output->warning('Фреймворк создан разработчиками компании ЭФКО Цифровые решения.
-Является платформой для изучения базового поведения приложения созданного на PHP.
-Фреймворк не является production-ready реализацией и не предназначен для коммерческого использования'. "\n\n"
-        );
+
         $output->success("Доступные опции:" . PHP_EOL);
 
         $formattedOptions = [];
